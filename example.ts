@@ -1,3 +1,5 @@
+type T<_T> = _T;
+
 type SuccessOrFailure<T, E = any> = Success<T, E> | Failure<T, E>;
 interface BaseSuccessOrFailure<T, E> {
     status: 'resolved' | 'rejected';
@@ -30,7 +32,7 @@ Failure.prototype.status = 'rejected';
 function isPromise(p: any): p is Promise<any> {
     return p && typeof p.then === 'function'; 
 }
-async function attempt<T, E>(p: Promise<T> | (() => Promise<T> | T)): Promise<Success<T, E> | Failure<T, E>> {
+async function attempt<T, E>(p: Promise<T> | (() => Promise<T> | T)): T<Promise<T<Success<T, E> | Failure<T, E>>>> {
     try {
         if (isPromise(p)) {
             return new Success(await p);
