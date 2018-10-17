@@ -32,7 +32,7 @@ Failure.prototype.status = 'rejected';
 function isPromise(p: any): p is Promise<any> {
     return p && typeof p.then === 'function'; 
 }
-async function attempt<T, E>(p: Promise<T> | (() => Promise<T> | T)): _T<Promise<_T<Success<T, E> | Failure<T, E>>>> {
+async function attempt<T, E>(p: Promise<T> | (() => Promise<T> | T)): Promise<_T<Success<T, E> | Failure<T, E>>> {
     try {
         if (isPromise(p)) {
             return new Success(await p);
